@@ -15,53 +15,53 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var providerTrue = Provider.of<WebGetProvider>(context, listen: true);
     var providerFalse = Provider.of<WebGetProvider>(context, listen: false);
-    return Scaffold(
-      appBar: AppBar(
-        // bottom: PreferredSize(
-        //   preferredSize: Size.zero,
-        //   child: LinearProgressIndicator(
-        //     value: providerTrue.valueLinear / 100,
-        //   ),
+    return SafeArea(
+      child: Scaffold(
+        // appBar: AppBar(
+        //   // bottom: PreferredSize(
+        //   //   preferredSize: Size.zero,
+        //   //   child: LinearProgressIndicator(
+        //   //     value: providerTrue.valueLinear / 100,
+        //   //   ),
+        //   // ),
+        //   actions: [
+        //     Expanded(
+        //       child: Padding(
+        //         padding: const EdgeInsets.only(left: 8, right: 8),
+        //         child: Card(
+        //           color: Colors.grey.shade200,
+        //           child: Padding(
+        //             padding: const EdgeInsets.all(8.0),
+        //             child: TextField(
+        //               controller: providerTrue.txtSearch,
+        //               decoration: const InputDecoration(
+        //                 hintText: "🔍 Search or enter URL",
+        //                 border: InputBorder.none,
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //     ),
+        //     IconButton(
+        //       onPressed: () {
+        //         providerTrue.webViewController!.loadUrl(
+        //           urlRequest: URLRequest(
+        //             url: WebUri(
+        //               "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //       icon: const Icon(Icons.search),
+        //     ),
+        //   ],
         // ),
-        actions: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 8),
-              child: Card(
-                color: Colors.grey.shade200,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: providerTrue.txtSearch,
-                    decoration: const InputDecoration(
-                      hintText: "🔍 Search or enter URL",
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              providerTrue.webViewController!.loadUrl(
-                urlRequest: URLRequest(
-                  url: WebUri(
-                    "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
-                  ),
-                ),
-              );
-            },
-            icon: const Icon(Icons.search),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: InAppWebView(
+        body: InAppWebView(
           initialUrlRequest: URLRequest(
             url: WebUri(
-              "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
+              // "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
+              "https://abhinavbharatnews.com/",
             ),
           ),
           onWebViewCreated: (controller) {
@@ -74,8 +74,8 @@ class HomePage extends StatelessWidget {
             await DbHelper.dbHelper.addData(title!, url.toString());
           },
         ),
+        // bottomNavigationBar: bottomBarMethod(providerTrue, providerFalse),
       ),
-      bottomNavigationBar: bottomBarMethod(providerTrue, providerFalse),
     );
   }
 }
