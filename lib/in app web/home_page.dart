@@ -15,67 +15,64 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     var providerTrue = Provider.of<WebGetProvider>(context, listen: true);
     var providerFalse = Provider.of<WebGetProvider>(context, listen: false);
-    return SafeArea(
-      child: Scaffold(
-        // appBar: AppBar(
-        //   // bottom: PreferredSize(
-        //   //   preferredSize: Size.zero,
-        //   //   child: LinearProgressIndicator(
-        //   //     value: providerTrue.valueLinear / 100,
-        //   //   ),
-        //   // ),
-        //   actions: [
-        //     Expanded(
-        //       child: Padding(
-        //         padding: const EdgeInsets.only(left: 8, right: 8),
-        //         child: Card(
-        //           color: Colors.grey.shade200,
-        //           child: Padding(
-        //             padding: const EdgeInsets.all(8.0),
-        //             child: TextField(
-        //               controller: providerTrue.txtSearch,
-        //               decoration: const InputDecoration(
-        //                 hintText: "🔍 Search or enter URL",
-        //                 border: InputBorder.none,
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //     ),
-        //     IconButton(
-        //       onPressed: () {
-        //         providerTrue.webViewController!.loadUrl(
-        //           urlRequest: URLRequest(
-        //             url: WebUri(
-        //               "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
-        //             ),
-        //           ),
-        //         );
-        //       },
-        //       icon: const Icon(Icons.search),
-        //     ),
-        //   ],
+    return Scaffold(
+      appBar: AppBar(
+        // bottom: PreferredSize(
+        //   preferredSize: Size.zero,
+        //   child: LinearProgressIndicator(
+        //     value: providerTrue.valueLinear / 100,
+        //   ),
         // ),
-        body: InAppWebView(
-          initialUrlRequest: URLRequest(
-            url: WebUri(
-              // "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
-              "https://abhinavbharatnews.com/",
+        actions: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 8, right: 8),
+              child: Card(
+                color: Colors.grey.shade200,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: providerTrue.txtSearch,
+                    decoration: const InputDecoration(
+                      hintText: "🔍 Search or enter URL",
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-          onWebViewCreated: (controller) {
-            providerTrue.webViewController = controller;
-          },
-          onLoadStart: (controller, url) async {
-            providerFalse.chengValue(value: url!.port);
-            // todo: log(url.query);
-            String? title = await controller.getTitle();
-            await DbHelper.dbHelper.addData(title!, url.toString());
-          },
-        ),
-        // bottomNavigationBar: bottomBarMethod(providerTrue, providerFalse),
+          IconButton(
+            onPressed: () {
+              providerTrue.webViewController!.loadUrl(
+                urlRequest: URLRequest(
+                  url: WebUri(
+                    "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
+      body: InAppWebView(
+        initialUrlRequest: URLRequest(
+          url: WebUri(
+            "${providerTrue.linkList[providerTrue.indexValue]}${providerTrue.txtSearch.text}",
+          ),
+        ),
+        onWebViewCreated: (controller) {
+          providerTrue.webViewController = controller;
+        },
+        onLoadStart: (controller, url) async {
+          providerFalse.chengValue(value: url!.port);
+          // todo: log(url.query);
+          String? title = await controller.getTitle();
+          await DbHelper.dbHelper.addData(title!, url.toString());
+        },
+      ),
+      bottomNavigationBar: bottomBarMethod(providerTrue, providerFalse),
     );
   }
 }
